@@ -8,11 +8,11 @@ import (
 
 type Config struct {
 	// HTTP API.
-	HTTPPort  int `env:"HTTP_PORT"`
+	HTTPPort  int `env:"HTTP_PORT" envDefault:"8000"`
 	RateLimit int `env:"HTTP_RATE_LIMIT" envDefault:"10"`
 
 	// Core service.
-	CoreGRPCAddress string `env:"CORE_GRPC_ADDRESS"`
+	CoreGRPCAddress string `env:"CORE_GRPC_ADDRESS" envDefault:"app:9000"`
 
 	// Security.
 	APIKey string `env:"API_KEY_HASH"`

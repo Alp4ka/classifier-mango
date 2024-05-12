@@ -2,6 +2,7 @@ package http
 
 import (
 	"fmt"
+
 	"github.com/Alp4ka/classifier-mango/internal/manager"
 
 	globaltelemetry "github.com/Alp4ka/classifier-mango/internal/telemetry"

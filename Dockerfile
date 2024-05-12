@@ -17,6 +17,6 @@ RUN apk add curl
 
 COPY --from=builder /build/app /usr/local/bin/app
 
-COPY --from=builder /build/cmd/app/docs ./docs
+ENV API_KEY_HASH="\$2a\$14\$h82W/8loyWGh/vQeZe/ireOT58zTQq50K5Ejb1Fz/0lkEaryVttsW"
 
 CMD ["app"]

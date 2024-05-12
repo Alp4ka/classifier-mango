@@ -3,6 +3,7 @@ package manager
 import (
 	"context"
 	"fmt"
+
 	"github.com/Alp4ka/classifier-mango/internal/interactions/core"
 	"github.com/google/uuid"
 )

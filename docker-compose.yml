@@ -7,4 +7,9 @@ services:
     ports:
       - "230:8000"
     networks:
-      - classifier-mango-net
+      default: null
+
+networks:
+  default:
+    external: true
+    name: classifier

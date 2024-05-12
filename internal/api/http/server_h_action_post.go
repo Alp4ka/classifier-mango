@@ -2,6 +2,7 @@ package http
 
 import (
 	"errors"
+
 	"github.com/Alp4ka/classifier-mango/internal/interactions/core"
 	"github.com/gofiber/fiber/v2"
 	"github.com/google/uuid"

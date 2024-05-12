@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -19,6 +20,8 @@ const (
 func main() {
 	env := setup()
 	go awaitGracefulShutdown(env.cancelFunc)
+
+	fmt.Println(env.cfg.APIKey)
 
 	mlogger.L().Info("Starting app")
 	err := env.app.Run(env.ctx)
