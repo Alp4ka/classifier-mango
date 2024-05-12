@@ -1,0 +1,10 @@
+version: '3.7'
+
+services:
+  mango-gateway:
+    build: .
+    restart: always
+    ports:
+      - "230:8000"
+    networks:
+      - classifier-mango-net
