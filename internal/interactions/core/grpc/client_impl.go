@@ -2,7 +2,7 @@ package grpc
 
 import (
 	"context"
-
+	"fmt"
 	api "github.com/Alp4ka/classifier-api"
 	"github.com/Alp4ka/classifier-mango/internal/interactions/core"
 	"github.com/google/uuid"
@@ -71,14 +71,16 @@ func (c *Client) Process(ctx context.Context, sessionID uuid.UUID) (core.Handler
 		return nil, err
 	}
 
-	inputChan := make(chan *api.ProcessRequest)
-	outputChan := make(chan *api.ProcessResponse)
+	inputChan := make(chan *api.ProcessRequest, 1)
+	outputChan := make(chan *api.ProcessResponse, 1)
 
 	h := newHandler(inputChan, outputChan)
 
 	go func() {
-		defer stream.CloseSend()
-		defer close(inputChan)
+		defer func() {
+			defer close(inputChan)
+			fmt.Println("Closing input channel")
+		}()
 
 		for {
 			select {
@@ -87,18 +89,25 @@ func (c *Client) Process(ctx context.Context, sessionID uuid.UUID) (core.Handler
 			case req := <-inputChan:
 				err := stream.Send(req)
 				if err != nil {
+					fmt.Println("input", err)
 					h.CloseWithError(err)
 				}
+			default:
 			}
 		}
 	}()
 
 	go func() {
-		defer close(outputChan)
+		defer func() {
+			stream.CloseSend()
+			close(outputChan)
+			fmt.Println("Closing output channel")
+		}()
 
 		for {
 			response, err := stream.Recv()
 			if err != nil {
+				fmt.Println("output", err)
 				h.CloseWithError(err)
 				return
 			}

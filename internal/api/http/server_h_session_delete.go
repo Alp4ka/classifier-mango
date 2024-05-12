@@ -9,12 +9,12 @@ func (s *Server) hFinish(c *fiber.Ctx) error {
 	ctx := c.UserContext()
 
 	paramSessionID := c.Params("session_id")
-	parsedSessionID, err := uuid.Parse(paramSessionID)
+	sessionID, err := uuid.Parse(paramSessionID)
 	if err != nil {
 		return err
 	}
 
-	err = s.cfg.CoreClient.ReleaseSession(ctx, parsedSessionID)
+	err = s.coreManager.ReleaseSession(ctx, sessionID)
 	if err != nil {
 		return err
 	}
@@ -22,4 +22,4 @@ func (s *Server) hFinish(c *fiber.Ctx) error {
 	return c.SendStatus(fiber.StatusOK)
 }
 
-var _ fiber.Handler = (*Server)(nil).hStart
+var _ fiber.Handler = (*Server)(nil).hFinish

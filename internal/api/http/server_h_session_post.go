@@ -10,6 +10,7 @@ import (
 type hStartReq struct {
 	Agent string `json:"agent"`
 }
+
 type hStartResp struct {
 	SessionID uuid.UUID `json:"sessionID"`
 }
@@ -22,7 +23,7 @@ func (s *Server) hStart(c *fiber.Ctx) error {
 		return err
 	}
 
-	sessionID, err := s.cfg.CoreClient.AcquireSession(ctx, req.Agent, classifiermango.AppName)
+	sessionID, err := s.coreManager.AcquireSession(ctx, req.Agent, classifiermango.AppName)
 	if err != nil {
 		return err
 	}

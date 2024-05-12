@@ -76,6 +76,7 @@ func (h *processInputHandler) Handle(input *core.ProcessInput) error {
 	select {
 	case h.inputChan <- parsed:
 	default:
+		return fmt.Errorf("failed to write to input channel")
 	}
 
 	return nil

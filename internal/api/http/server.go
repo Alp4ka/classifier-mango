@@ -2,6 +2,7 @@ package http
 
 import (
 	"fmt"
+	"github.com/Alp4ka/classifier-mango/internal/manager"
 
 	globaltelemetry "github.com/Alp4ka/classifier-mango/internal/telemetry"
 	"github.com/gofiber/fiber/v2"
@@ -16,13 +17,15 @@ const (
 )
 
 type Server struct {
-	app *fiber.App
-	cfg Config
+	app         *fiber.App
+	cfg         Config
+	coreManager manager.Manager
 }
 
 func NewHTTPServer(cfg Config) *Server {
 	server := &Server{
-		cfg: cfg,
+		cfg:         cfg,
+		coreManager: manager.NewManager(cfg.CoreClient),
 	}
 	server.app = fiber.New(
 		fiber.Config{
@@ -51,6 +54,9 @@ func (s *Server) configureRouting() {
 	sessionGroup := apiGroup.Group("/session")
 	sessionGroup.Post("", s.hStart)
 	sessionGroup.Delete("/:session_id", s.hFinish)
+
+	actionGroup := apiGroup.Group("/action")
+	actionGroup.Post("", s.hActionPost)
 }
 
 func (s *Server) Run() error {
