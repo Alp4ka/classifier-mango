@@ -80,7 +80,6 @@ func setupApp(env *environment) {
 		app.Config{
 			HTTPPort:      env.cfg.HTTPPort,
 			HTTPRateLimit: env.cfg.RateLimit,
-			HashCost:      env.cfg.HashCost,
 			APIKey:        env.cfg.APIKey,
 			CoreClient:    env.coreClient,
 		},

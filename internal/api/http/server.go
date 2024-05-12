@@ -50,7 +50,7 @@ func (s *Server) configureRouting() {
 
 	sessionGroup := apiGroup.Group("/session")
 	sessionGroup.Post("", s.hStart)
-	sessionGroup.Delete("/{:sessionID}", s.hFinish)
+	sessionGroup.Delete("/:session_id", s.hFinish)
 }
 
 func (s *Server) Run() error {

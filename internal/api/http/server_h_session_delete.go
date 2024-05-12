@@ -5,21 +5,16 @@ import (
 	"github.com/google/uuid"
 )
 
-type hFinishParams struct {
-	SessionID uuid.UUID `form:"sessionID"`
-}
-
-type hFinishResp struct{}
-
 func (s *Server) hFinish(c *fiber.Ctx) error {
 	ctx := c.UserContext()
 
-	params := new(hFinishParams)
-	if err := c.QueryParser(params); err != nil {
+	paramSessionID := c.Params("session_id")
+	parsedSessionID, err := uuid.Parse(paramSessionID)
+	if err != nil {
 		return err
 	}
 
-	err := s.cfg.CoreClient.ReleaseSession(ctx, params.SessionID)
+	err = s.cfg.CoreClient.ReleaseSession(ctx, parsedSessionID)
 	if err != nil {
 		return err
 	}

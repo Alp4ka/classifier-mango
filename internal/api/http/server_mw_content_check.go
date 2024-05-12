@@ -16,7 +16,7 @@ func (s *Server) mwContentChecker() fiber.Handler {
 			return c.SendStatus(fiber.StatusForbidden)
 		}
 
-		if c.Method() != fiber.MethodGet && !c.Is("json") {
+		if c.Method() != fiber.MethodGet && c.Method() != fiber.MethodDelete && !c.Is("json") {
 			return c.SendStatus(fiber.StatusUnsupportedMediaType)
 		}
 
