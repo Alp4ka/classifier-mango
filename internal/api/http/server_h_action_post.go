@@ -31,6 +31,22 @@ func (s *Server) hActionPost(c *fiber.Ctx) error {
 		return err
 	}
 
+	if handler.GetOutputHandler().HasMessage() {
+		output, err := handler.GetOutputHandler().Await()
+		if err != nil {
+			return errors.Join(err, handler.Error())
+		}
+
+		return c.Status(fiber.StatusOK).JSON(
+			HandlerResp{
+				Data: &hActionPostResp{
+					Action:   output.Action,
+					Response: output.UserResponse,
+				},
+			},
+		)
+	}
+
 	err = handler.GetInputHandler().Handle(&core.ProcessInput{
 		UserInput: req.UserInput,
 		RequestID: uuid.New(),

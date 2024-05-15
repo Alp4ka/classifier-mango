@@ -90,6 +90,10 @@ func newProcessOutputHandler(ch <-chan *api.ProcessResponse) *processOutputHandl
 	return &processOutputHandler{outputChan: ch}
 }
 
+func (h *processOutputHandler) HasMessage() bool {
+	return len(h.outputChan) != 0
+}
+
 func (h *processOutputHandler) Await() (*core.ProcessOutput, error) {
 	resp, open := <-h.outputChan
 	if !open {

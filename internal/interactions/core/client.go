@@ -25,6 +25,7 @@ type ProcessInputHandler interface {
 }
 
 type ProcessOutputHandler interface {
+	HasMessage() bool
 	Await() (*ProcessOutput, error)
 }
 
